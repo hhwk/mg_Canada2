@@ -8,11 +8,11 @@ import os
 import pandas as pd
 import numpy as np
 
-Country_Name='Argentina'
-city_1='Буэнос-Айрес'
-city_2='Сальта'
-city_3='Кордова'
-city_4='Мендоса'
+Country_Name='Filip'
+city_1='Лусон'
+city_2='Боракай'
+city_3='Себу'
+city_4='Панай'
 
 deta = Deta(st.secrets["deta_key"])
 sms=deta.Base('sms')
@@ -69,7 +69,7 @@ if menu=='Авторы':
 
 if menu=='Гуманитарная помощь':
     st.write('Деньги:',money)
-    visit_money = st.selectbox('Кому вы хотите перевести деньги?',('Мексике', 'Канаде', 'Филипинским островам', 'Австралия', 'Швеция'))
+    visit_money = st.selectbox('Кому вы хотите перевести деньги?',('Мексике', 'Канаде', 'Австралия', 'Швеции', 'Аргентине'))
     how_money = st.number_input('Сумма перевода?', 200)
     for ii in range(0, 20):
         if request_money.get(f'{ii}') == None:
@@ -83,7 +83,7 @@ if menu=='Гуманитарная помощь':
 
 
 if menu=='Посещения':
-    visit = st.selectbox('Какую старану вы хотите посетить?', ('Мексика', 'Канада', 'Филипинские острова', 'Австралия', 'Швеция'))
+    visit = st.selectbox('Какую старану вы хотите посетить?', ('Мексика', 'Канада', 'Австралия', 'Швеция', 'Аргентина'))
     if st.button('Отправить запрос'):
         for ii in range(0, 20):
             if request.get(f'{ii}') == None:
@@ -98,18 +98,18 @@ if menu=='Запуск ракет':
         st.error('Дружок ты еще не изучил ракеты')
     else:
         st.write('Количество ваших ракет:',city['roket'])
-        country = st.multiselect('Какие страны атакуем?',['Мексика', 'Канада', 'Филипинские острова', 'Австралия', 'Швеция'])
+        country = st.multiselect('Какие страны атакуем?',['Мексика', 'Канада', 'Австралия', 'Швеция', 'Аргентина'])
         for l in range(0,len(country)):
             if country[l]=='Мексика':
                 attak=st.multiselect('Какие города атакуем в Максика?',['Мехико','Канкун','Мерида','Таско'])
             if country[l]=='Канада':
                 attak1=st.multiselect('Какие города атакуем в Канада?',['Оттава','Торонто','Ванкувер','Квебек'])
-            if country[l]=='Филипинские острова':
-                attak2=st.multiselect('Какие города атакуем в Филипинские острова?',['Лусон','Боракай','Себу','Панай'])
             if country[l]=='Австралия':
-                attak3=st.multiselect('Какие города атакуем в Австралия?',['Канберра','Сидней','Мельбрун','Перт'])
+                attak2=st.multiselect('Какие города атакуем в Австралия?',['Кенберра','Сидней','Мельбрун','Перт'])
             if country[l]=='Швеция':
-                attak4=st.multiselect('Какие города атакуем в Швеция?',['Стокгольм','Вестерсон','Висбю','Евле'])
+                attak3=st.multiselect('Какие города атакуем в Швеция?',['Стокгольм','Вестерсон','Висбю','Евле'])
+            if country[l]=='Аргентина':
+                attak4=st.multiselect('Какие города атакуем в Аргентина?',['Буэнос-Сальта','Сальта','Кордова','Мендоса'])
             final_roket=city['roket']-(len(attak)+len(attak1)+len(attak2)+len(attak3)+len(attak4))
             st.write('У вас останеться ракет:',final_roket)
          
@@ -127,7 +127,7 @@ if menu=='Запуск ракет':
                   if sms.get(f'{iii}')== None:
                       break
                 sms.put({'key':f'{iii}','Country':f'{Country_Name}','sms':'Attak'})
-                Attak.put({'key':f'{ii}','Country':'Мексика'+str(attak),'Country1':'Канада'+str(attak1),'Country2':'Филипинские острова'+str(attak2),'Country3':'Австралия'+str(attak3),'Country4':'Аргентина'+str(attak4)})
+                Attak.put({'key':f'{ii}','Country':'Мексика'+str(attak),'Country1':'Канада'+str(attak1),'Country2':'Австралия'+str(attak2),'Country3':'Швеция'+str(attak3),'Country4':'Аргентина'+str(attak4)})
                 db_content = Attak.fetch().items
                 st.write(db_content)
                 with st.spinner('Wait for it...'):
@@ -219,7 +219,7 @@ if menu=='Улучшения':
             money-=500
             reserch1=1
 
-    sunks_for_who = st.multiselect('На какие страны вы хотите наложить санкции?', ['Мексика', 'Канада', 'Филипинские острова', 'Австралия', 'Швеция'])
+    sunks_for_who = st.multiselect('На какие страны вы хотите наложить санкции?', ['Мексика', 'Канада', 'Австралия', 'Швеция', 'Аргентина'])
     money-= 50*len(sunks_for_who)
 
     st.write('Ваш баланс после операции:', money)
@@ -263,7 +263,7 @@ if menu=='Улучшения':
             st.error('Вы потратили больше денег чем у вас есть...')
 
 if menu=='Стартовая страница':
-    st.title(f'Вы играете за Аргентину')
+    st.title(f'Вы играете за Филипинские острова')
     st.write('Деньги:', money)
     st.write('Ракеты:', city['roket'])
     st.write('Санкции наложеные вами:',city['sunks_of_you'])
